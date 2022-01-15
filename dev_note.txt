@@ -1,27 +1,27 @@
 ============================Main/Basic Function=============================
 
 [[GENERAL]]
-    Login
-    Sign Up
-    Main Page
+    Login | x
+    Sign Up | x
+    Main Page | x
 
     [Guest]
-        Listen Songs
-        Search Songs
-        Play Playlists
-        - Login as user for more
+        Listen Songs | x
+        Search Songs | x
+        Play Playlists | x
+        - Login as user for more | x
 
 
 [Admin]
-    Delete/Ban user
+    Delete/Ban user | x
 
 [Artist]
-    Upload Songs
+    Upload Songs | x
 
 [User]
-    - Guest func
-    Create Playlists
-    Like / Dislike
+    - Guest func | x
+    Create Playlists | x
+    Like / Dislike | x
 
 
 
