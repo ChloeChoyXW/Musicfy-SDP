@@ -1,11 +1,16 @@
 "# Musicfy-SDP" 
 
-tkinter
-pygame
+Module used:
+
+    tkinter
+    pygame
+
+mySQL database server 
+
+    =>Database structure used in sampleSQL.sql
 
 To host, need:
-    mySQL database server 
-        =>Database structure used in sampleSQL.sql
+    musicfy.ico
     audio_files folder
     image_files folder
 
