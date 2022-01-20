@@ -10,6 +10,7 @@ mySQL database server
     =>Database structure used in sampleSQL.sql
 
 To host, need:
+
     musicfy.ico
     py_SQL.py to connect mySQL database
     audio_files folder
