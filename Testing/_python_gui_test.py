@@ -1,13 +1,11 @@
-from tkinter import *
+import tkinter as tk
 
-
-
-root = Tk()
+root = tk.Tk()
 
 # # ==========================Display Text========================================================
 # # Creating a label Widget
-# label_1 = Label(root, text = "Hello World")
-# label_2 = Label(root, text = "This is second label")
+# label_1 = tk.Label(root, text = "Hello World")
+# label_2 = tk.Label(root, text = "This is second label")
 
 # # # Display on screen [On the middle]
 # # label_1.pack()
@@ -20,15 +18,15 @@ root = Tk()
 # # label_3 = Label(root, text = "This is third label")
 
 # ==========================Buttons========================================================
-button_1 = Button(root, text = "Can Click")
-button_2 = Button(root, text = "Can't Click", state = DISABLED)
-button_3 = Button(root, text = "Big Button",  padx = 50, pady = 50)
+button_1 = tk.Button(root, text = "Can Click")
+button_2 = tk.Button(root, text = "Can't Click", state = tk.DISABLED)
+button_3 = tk.Button(root, text = "Big Button",  padx = 50, pady = 50)
 
 def clickedButton():
-    label_button = Label(root, text = "Success, You clicked")
+    label_button = tk.Label(root, text = "Success, You clicked")
     label_button.pack()
 
-button_4 = Button(root, text="Wroking Button", command=clickedButton)
+button_4 = tk.Button(root, text="Wroking Button", command=clickedButton)
 
 button_1.pack()
 button_2.pack()
