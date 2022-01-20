@@ -7,7 +7,7 @@ root = tk.Tk()
 # Change Window(Application) Title
 root.title("Musicfy")
 # Change icon
-root.iconbitmap(r"music.ico")
+root.iconbitmap(r"musicfy.ico")
 # Change Window's size
 root.geometry("400x400")
 # Fix window's size
@@ -26,22 +26,6 @@ root.resizable(width=False, height=False)
 
 # ==============================================================================
 
-import mysql.connector
-
-db = mysql.connector.connect(
-    host = "localhost",
-    user = "root",
-    passwd = "Mysql#Pa55",
-    database = "musicfy_db"
-)
-
-mycursor = db.cursor()
-
-audioQuery = mycursor.execute("select * from audio_tbl")
-myresult = mycursor.fetchall()
-
-for x in myresult:
-  print(x)
 
 
 
