@@ -6,7 +6,7 @@ root = tk.Tk()
 # Change Window(Application) Title
 root.title("Musicfy")
 # Change icon
-root.iconbitmap(r"music.ico")
+root.iconbitmap(r"musicfy.ico")
 # Change Window's size
 root.geometry("400x400")
 # Fix window's size
