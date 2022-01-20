@@ -11,6 +11,7 @@ mySQL database server
 
 To host, need:
     musicfy.ico
+    py_SQL.py to connect mySQL database
     audio_files folder
     image_files folder
 
