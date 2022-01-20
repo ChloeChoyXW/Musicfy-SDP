@@ -30,7 +30,7 @@ root.resizable(width=False, height=False)
 
 
 # Creating label for search bar
-searchLabel = tk.Label(root, text = "Search Audio: ")
+searchLabel = tk.Label(root, text = "Search Audio: ", font = ('Italic', 14), fg="dark blue")
 # Creating input bar
 searchBar = tk.Entry(root)
 
@@ -38,19 +38,60 @@ searchBar = tk.Entry(root)
 searchLabel.grid(row = 0, column = 0)
 searchBar.grid(row = 0, column = 1)
 
-# Collect input data
-def collect_search_data():
+# Collect input data & Search
+def search_data():
     u_search = searchBar.get()
-    print(u_search)
-    print("abd")
+    audio_num = 0
 
-showButton = tk.Button(root, text = "Show", command = "collect_seach_data")
+    # Delete search result label After next search, Failed (Search long then short to test)
+    # searchValid = tk.Label(root, text = f"")
+    # print(searchValid.winfo_exists())
+    # if searchValid.winfo_exists() == 1:
+    #     searchValid.destroy()
 
-# Display button
-showButton.grid(row = 1, column = 0)
+    # Check the length of search
+    if len(u_search) >= 31 or u_search =='':
+        u_search = ''
+        searchValid = tk.Label(root, text = f"Invalid Search")
+        searchValid.grid(row=2,column=1)
+    else:
+        searchValid = tk.Label(root, text = f"Displaying Search Result for: {u_search}")
+        searchValid.grid(row=2,column=1)
+        
+        print(u_search) # -- FOR LOG --
+
+        # Search in Database
+        
+        searchAudioQuery ="select audio_name, audio_path from audio_tbl where audio_name like" + "'%" + u_search + "%';" 
+        mycursor.execute(searchAudioQuery)
+        myresult = mycursor.fetchall()
+
+        audioLabel = tk.Label(root, text = f"Number of Result {audio_num}")
+        audioLabel.grid(row=3, column=0)
+
+        for x in myresult:
+            print(x) # -- FOR LOG --
+            a_name = x[0] # Potato code because it will wait until it load all songs (maybe limit/ use pages)
+            a_path = x[1]
+            audio_num += 1
+            # print(a_name) # -- FOR LOG --
+            # print(a_path) # -- FOR LOG --
+
+
+            # Display Audio
+
+
+            audioButton = tk.Button(root, text = "This song")
+            audioButton.grid(row=3, column=1)
 
 
 
+
+
+# Search Button
+searchButton = tk.Button(root, text = "Search", command = search_data)
+# Display search button
+searchButton.grid(row = 1, column = 0)
 
 
 

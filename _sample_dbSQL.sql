@@ -24,6 +24,7 @@ values ('1','admin','admin','admin'),
 ('2','artist','imartist','artist'),
 ('3','listener','listener','listener')
 
-insert into `audio_tbl` (aid, audio_name, audio_path, num_like, num_dislike)
+insert into `audio_tbl` (aid, audio_name, uid, audio_path, num_like, num_dislike)
 values (1, 'Star Wars 3', 1, 'audio_files/StarWars3.wav', 1, 0),
-(2, 'Lone Sojounrer', 1, 'audio_files/Lone_Sojourner.mp3', 1, 0)
+(2, 'Lone Sojounrer', 1, 'audio_files/Lone_Sojourner.mp3', 1, 0),
+(3, 'The Moon Song', 1, 'audio_files/The_Moon_Song.mp3', 1, 0)
