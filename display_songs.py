@@ -1,6 +1,8 @@
 import tkinter as tk
 import pygame as pg
+from py_SQL import db_connection
 
+db, mycursor = db_connection()
 root = tk.Tk()
 
 # ============================= Application Design =============================
