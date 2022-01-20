@@ -7,12 +7,12 @@ Module used:
 
 mySQL database server 
 
-    =>Database structure used in sampleSQL.sql
+    =>Database structure used in _sampleSQL.sql
 
 To host, need:
 
     musicfy.ico
-    py_SQL.py to connect mySQL database
+    py_SQL.py to connect mySQL database (Sample given)
     audio_files folder
     image_files folder
 
