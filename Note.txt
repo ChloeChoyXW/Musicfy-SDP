@@ -35,6 +35,9 @@ Stuff to be added
 
     Restriction on Search bar input 
 
+    Database audio_tbl + categories
+    Search + Categories
+
 
 
 
