@@ -4,7 +4,6 @@ Module used:
 
     tkinter
     pygame
-    mySQL
 
 mySQL database structure
 
