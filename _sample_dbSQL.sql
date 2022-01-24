@@ -58,7 +58,7 @@ values ('1','admin','admin','admin'),
 ('2','artist','imartist','artist'),
 ('3','listener','listener','listener');
 
-insert into `audio_tbl` (aid, audio_name, uid, audio_path,)
+insert into `audio_tbl` (aid, audio_name, uid, audio_path)
 values (1, 'Star Wars 3', 1, 'audio_files/StarWars3.wav'),
 (2, 'Lone Sojounrer', 1, 'audio_files/Lone_Sojourner.mp3'),
 (3, 'The Moon Song', 1, 'audio_files/The_Moon_Song.mp3'),
@@ -76,4 +76,8 @@ insert into `cat_meme` (aid, category_status)
 values (4,1);
 
 insert into `like_table` (aid, uid, like_status)
-value ()
+value (1,1,2),
+(2,1,1),
+(3,1,1),
+(4,1,1),
+(5,1,1);
