@@ -1,8 +1,13 @@
 import tkinter as tk
+import pygame as pg
 from py_SQL import db_connection
 
 db, mycursor = db_connection()
 root = tk.Tk()
+
+# initialise pygame mixer
+pg.mixer.init()
+
 
 # ============================= Application Design =============================
 # Change Window(Application) Title
@@ -33,63 +38,65 @@ root.resizable(width=False, height=False)
 searchLabel = tk.Label(root, text = "Search Audio: ", font = ('Italic', 14), fg="dark blue")
 # Creating input bar
 searchBar = tk.Entry(root)
-
-# Display Search bar
+# Display Search bar & Input Bar
 searchLabel.grid(row = 0, column = 0)
 searchBar.grid(row = 0, column = 1)
 
-# Collect input data & Search
-def search_data():
+def playSong(path):
+    pg.mixer.music.load(path)
+    pg.mixer.music.play(loops=0)
+
+# Collect input data & Check if "" OR >30
+def check_valid():
+    # Collect input
     u_search = searchBar.get()
-    audio_num = 0
-
-    # Delete search result label After next search, Failed (Search long then short to test)
-    # searchValid = tk.Label(root, text = f"")
-    # print(searchValid.winfo_exists())
-    # if searchValid.winfo_exists() == 1:
-    #     searchValid.destroy()
-
-    # Check the length of search
+    # Check the length of search <=30
     if len(u_search) >= 31 or u_search =='':
-        u_search = ''
+        # Not valid
         searchValid = tk.Label(root, text = f"Invalid Search")
         searchValid.grid(row=2,column=1)
     else:
+        # Valid
         searchValid = tk.Label(root, text = f"Displaying Search Result for: {u_search}")
         searchValid.grid(row=2,column=1)
-        
-        print(u_search) # -- FOR LOG --
+        search_data(u_search)
 
-        # Search in Database
-        
-        searchAudioQuery ="select audio_name, audio_path from audio_tbl where audio_name like" + "'%" + u_search + "%';" 
-        mycursor.execute(searchAudioQuery)
-        myresult = mycursor.fetchall()
+def search_data(u_search):
+    # Search in Database
+    searchAudioQuery ="select audio_name, audio_path from audio_tbl where audio_name like" + "'%" + u_search + "%';" 
+    mycursor.execute(searchAudioQuery)
+    myresult = mycursor.fetchall()
 
-        audioLabel = tk.Label(root, text = f"Number of Result {audio_num}")
-        audioLabel.grid(row=3, column=0)
+    # Get result
+    audio_num = 0
+    for x in myresult:
+        print(x) # -- FOR LOG --
+        a_name = x[0] # Potato code because it will wait until it load all songs (maybe limit/ use pages)
+        a_path = x[1]
+        audio_num += 1
 
-        for x in myresult:
-            print(x) # -- FOR LOG --
-            a_name = x[0] # Potato code because it will wait until it load all songs (maybe limit/ use pages)
-            a_path = x[1]
-            audio_num += 1
-            # print(a_name) # -- FOR LOG --
-            # print(a_path) # -- FOR LOG --
+        # Display Results
+        audioLabel = tk.Label(root, text = f"Audio Name = {a_name}")
+        audioLabel.grid(row=3+audio_num, column=1) # row 0 = search bar, row 1= search button, row 2 = Displaying Search Result for:
 
+        # Play Audio
+        #
+        # Issue - Play the last song on all button,
+        # Solution probably use list, call list
+        audioButton = tk.Button(root, text = "Play", command = lambda:[playSong(a_path)])
+        audioButton.grid(row=3+audio_num, column=2)
 
-            # Display Audio
+    # Display number of results after loop
+    numLabel = tk.Label(root, text = f"Number of Result {audio_num}")
+    numLabel.grid(row=4+audio_num, column=1)
 
-
-            audioButton = tk.Button(root, text = "This song")
-            audioButton.grid(row=3, column=1)
 
 
 
 
 
 # Search Button
-searchButton = tk.Button(root, text = "Search", command = search_data)
+searchButton = tk.Button(root, text = "Search", command = check_valid)
 # Display search button
 searchButton.grid(row = 1, column = 0)
 
