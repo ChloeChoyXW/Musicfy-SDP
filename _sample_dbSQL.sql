@@ -11,52 +11,75 @@ create table `user_tbl` (
 create table `audio_tbl` (
     `aid` int not null auto_increment,
     `audio_name` varchar(50) not null,
-    `uid` int not null, -- Artist / Uploader
+    `uid` int not null, -- id of Artist / Uploader
     `audio_path` varchar(255) not null, -- Reason of not storing as BLOB: Performance overhead
-    -- `num_dislike` int, -- like dislike in other table,∴against normalisation
-    -- `num_like` int,
     primary key (aid),
     foreign key (uid) references user_tbl(uid)
 );
 
--- Primary key = aid+uid from two other tables
+-- constraint Primary key = foreign+foreign/unique from other tables to form PK
 create table `like_tbl` (
     `aid` int not null,
     `uid` int not null,
-    `like_status` tinyint(2) -- 0 = didn't react, 1 = like, 2 = dislike
+    `like_status` tinyint(1), -- 0 = dislike, 1 = like,  no react = delete
     foreign key (aid) references audio_tbl(aid),
     foreign key (uid) references user_tbl(uid),
     constraint PK_likes primary key (aid,uid)
 );
 
--- For each category, create 1 table (normalisation)
--- Primary key use audioID (aid)
-create table `cat_lofi` (
-    `aid` int not null,
-    `category_status` tinyint(1), -- 0 = not in category, 1 = in category
-    primary key (aid),
-    foreign key (aid) references audio_tbl(aid)
+create table `category_tbl` (
+    `cid` int not null auto_increment,
+    `category_name` varchar(50) not null,
+    primary key (cid)
 );
 
-create table `cat_meme` (
+create table `song_in_category` (
+    `cid` int not null,
     `aid` int not null,
-    `category_status` tinyint(1), -- 0 = not in category, 1 = in category
-    primary key (aid),
-    foreign key (aid) references audio_tbl(aid)
+    foreign key (cid) references category_tbl(cid),
+    foreign key (aid) references audio_tbl(aid),
+    constraint PK_sic primary key (cid,aid)
 );
 
-create table `cat_jazz` (
-    `aid` int not null,
-    `category_status` tinyint(1), -- 0 = not in category, 1 = in category
-    primary key (aid),
-    foreign key (aid) references audio_tbl(aid)
+create table `playlist_tbl` (
+    `pid` int not null auto_increment, -- Unique code for every playlist
+    `uid` int not null,                -- Owner of playlist
+    primary key (pid),
+    foreign key (uid) references user_tbl(uid)
 );
 
+create table `song_in_playlist` (
+    `pid` int not null,
+    `aid` int not null,                -- Songs in the playlist
+    foreign key (pid) references playlist_tbl(pid),
+    foreign key (aid) references audio_tbl(aid),
+    constraint PK_sip primary key (pid,aid)
+);
+
+/* NOT DECIDED TO IMPLEMENT YET
+
+create table `album_tbl` (
+    `album_id` int not null auto_increment,
+    `uid` int not null,
+    primary key (album_id),
+    foreign key (uid) references user_tbl(uid)
+);
+
+create table `song_in_album` (
+    `album_id` int not null,
+    `aid` int not null,
+    foreign key (album_id) references album_tbl(album_id),
+    foreign key (aid) references audio_tbl(aid),
+    constraint PK_sia primary key (album_id,aid)
+);
+*/
+
+-- --------------------------------------------Below are sample data----------------------------------------------
 
 insert into `user_tbl` (uid, usertype, username, password)
 values ('1','admin','admin','admin'),
 ('2','artist','imartist','artist'),
-('3','listener','listener','listener');
+('3','listener','imlistener','listener');
 
 insert into `audio_tbl` (aid, audio_name, uid, audio_path)
 values (1, 'Star Wars 3', 1, 'audio_files/StarWars3.wav'),
@@ -65,19 +88,44 @@ values (1, 'Star Wars 3', 1, 'audio_files/StarWars3.wav'),
 (4, '2113', 1, 'audio_files/two_one_one_three.mp3'),
 (5, 'Letting Go', 1, 'audio_files/letting_go.mp3');
 
-
-insert into `cat_lofi` (aid, category_status)
-values (5,1);
-
-insert into `cat_jazz` (aid, category_status)
-values (5,1);
-
-insert into `cat_meme` (aid, category_status)
-values (4,1);
-
-insert into `like_table` (aid, uid, like_status)
-value (1,1,2),
+insert into `like_tbl` (aid, uid, like_status)
+values (1,1,1),
 (2,1,1),
 (3,1,1),
 (4,1,1),
 (5,1,1);
+
+insert into `category_tbl` (cid, category_name)
+values (1,'Lofi'),
+(2,'Hit-hop'),
+(3,'Jazz'),
+(4,'Meme'),
+(5,'Game OST'),
+(6,'acoustic');
+
+insert into `song_in_category` (cid, aid)
+values (1,5),
+(4,4),
+(3,5),
+(4,1),
+(5,2),
+(6,3);
+
+insert into `playlist_tbl` (pid, uid)
+values (1,1),
+(2,1),
+(3,1),
+(4,2),
+(5,3);
+
+insert into `song_in_playlist` (pid, aid)
+values (1,1),
+(1,2),
+(1,3),
+(1,4),
+(1,5),
+(4,1),
+(4,2),
+(5,3),
+(5,4),
+(5,5);
