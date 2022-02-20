@@ -34,15 +34,20 @@ root.geometry("500x500")
 root.resizable(width=False, height=False)
 root.title('User Profile')
 
-#display image
-mylabel = Label(root, text="bye world!")
-mylabel.pack()
-photo = PhotoImage(file="C:\\Users\\USER\\Desktop\\kanna3.png")
-labeling = Label(root, image=photo)
-labeling.pack()
+#display user profile and alignment
+welcome = Label(root, text="User Profile")
+welcome.pack(side=tk.TOP, anchor="nw")
 
-# converting jpg images so it will appear in in the application
-img = ImageTk.PhotoImage(Image.open("xyz.jpg"))  
-l=Label(image=img)
-l.pack()
+#resizing image and position on application
+image = Image.open("C:\\Users\\USER\\Desktop\\admin.jpg")#need to research how to retrieve the login data and display the image from there
+resize = image.resize((150,100))
+finalimage = ImageTk.PhotoImage(resize)
+profile_image=Label(image=finalimage)
+profile_image.pack(side=tk.TOP, anchor="nw")
+
+
+#display user data here by retrieving it from database
+user_info = Label(root, text="Welcome, User")
+user_info.pack(side=tk.TOP, anchor="nw")
+
 root.mainloop()
