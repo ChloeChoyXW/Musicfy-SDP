@@ -3,7 +3,7 @@ import tkinter as tk
 from tkinter.ttk import Label
 import pygame as pg
 from email import message
-from tkinter import PhotoImage, messagebox
+from tkinter import Image, PhotoImage, messagebox
 
 # Import Local Module
 from py_SQL import db_connection
@@ -31,14 +31,10 @@ root.geometry("500x500")
 root.resizable(width=False, height=False)
 root.title('User Profile')
 
-#display part
+#display image from database
 mylabel = Label(root, text="bye world!")
 mylabel.pack()
-root.mainloop()
-
-def profile_image():
-    global my_image
-    my_image = Label(file="C:\Users\USER\Desktop\assignments\Sem 4\Website Development\WDT Assignment\images\aboutus.jpg")
-    
-my_image.pack()
+photo = PhotoImage(file="C:\\Users\\USER\\Desktop\\kanna3.png")
+labeling = Label(root, image=photo)
+labeling.pack()
 root.mainloop()
