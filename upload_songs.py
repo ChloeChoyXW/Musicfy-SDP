@@ -53,7 +53,8 @@ def get_category():
 def Upload():
     #Audio name
     global audio_name
-    audio_name = inputName.get()
+    #uid = str(getuserid)
+    audio_name = inputName.get() + "_" #+ uid
     #Copy audio to the file (If able to host databse, change to upload to database)
     audio_uploaded = shutil.copy(file_path, 'C:/Users/USER/OneDrive/Documents/GitHub/Musicfy-SDP/audio_files folder/') #change to audio file path
     #rename file to match audio name and aid
@@ -114,7 +115,7 @@ inputName.grid(row=1,column=1)
 audioFile = tk.Label(root, text = "Select audio file:", font=('Italic', 10), fg="black", )
 audioFile.grid(sticky='W',row=2,column=0)
 
-Open_button = tk.Button(root, text='Open', command=lambda:[Select_file(), ])
+Open_button = tk.Button(root, text='Open', command= Select_file)
 Open_button.grid(sticky='W', row=2,column=1)
 
 # Category label
