@@ -1,4 +1,4 @@
-create database `musicfy_db`;
+create database `musicfy_db`
 
 create table `user_tbl` (
     `uid` int not null auto_increment,
@@ -11,13 +11,24 @@ create table `user_tbl` (
 create table `audio_tbl` (
     `aid` int not null auto_increment,
     `audio_name` varchar(50) not null,
-    `uid` int not null, -- id of Artist / Uploader
+    `uid` int not null, -- Artist / Uploader
     `audio_path` varchar(255) not null, -- Reason of not storing as BLOB: Performance overhead
+    `num_dislike` int,
+    `num_like` int,
     primary key (aid),
-    foreign key (uid) references user_tbl(uid) on delete cascade
+    foreign key (uid) references user_tbl(uid)
 );
 
--- constraint Primary key = foreign+foreign/unique from other tables to form PK
+insert into `user_tbl` (uid, usertype, username, password)
+values ('1','admin','admin','admin'),
+('2','artist','imartist','artist'),
+('3','listener','listener','listener');
+
+insert into `audio_tbl` (aid, audio_name, uid, audio_path, num_like, num_dislike)
+values (1, 'Star Wars 3', 1, 'audio_files/StarWars3.wav', 1, 0),
+(2, 'Lone Sojounrer', 1, 'audio_files/Lone_Sojourner.mp3', 1, 0),
+(3, 'The Moon Song', 1, 'audio_files/The_Moon_Song.mp3', 1, 0);
+
 create table `like_tbl` (
     `aid` int not null,
     `uid` int not null,
@@ -55,77 +66,3 @@ create table `song_in_playlist` (
     foreign key (aid) references audio_tbl(aid) on delete cascade,
     constraint PK_sip primary key (pid,aid)
 );
-
-/* NOT DECIDED TO IMPLEMENT YET
-
-create table `album_tbl` (
-    `album_id` int not null auto_increment,
-    `uid` int not null,
-    primary key (album_id),
-    foreign key (uid) references user_tbl(uid)
-);
-
-create table `song_in_album` (
-    `album_id` int not null,
-    `aid` int not null,
-    foreign key (album_id) references album_tbl(album_id),
-    foreign key (aid) references audio_tbl(aid),
-    constraint PK_sia primary key (album_id,aid)
-);
-*/
-
--- --------------------------------------------Below are sample data----------------------------------------------
-
-insert into `user_tbl` (uid, usertype, username, password)
-values ('1','admin','admin','admin'),
-('2','artist','imartist','artist'),
-('3','listener','imlistener','listener');
-
-insert into `audio_tbl` (aid, audio_name, uid, audio_path)
-values (1, 'Star Wars 3', 1, 'audio_files/StarWars3.wav'),
-(2, 'Lone Sojounrer', 1, 'audio_files/Lone_Sojourner.mp3'),
-(3, 'The Moon Song', 1, 'audio_files/The_Moon_Song.mp3'),
-(4, '2113', 1, 'audio_files/two_one_one_three.mp3'),
-(5, 'Letting Go', 1, 'audio_files/letting_go.mp3');
-
-insert into `like_tbl` (aid, uid, like_status)
-values (1,1,1),
-(2,1,1),
-(3,1,1),
-(4,1,1),
-(5,1,1);
-
-insert into `category_tbl` (cid, category_name)
-values (1,'Lofi'),
-(2,'Hit-hop'),
-(3,'Jazz'),
-(4,'Meme'),
-(5,'Game OST'),
-(6,'acoustic');
-
-insert into `song_in_category` (cid, aid)
-values (1,5),
-(4,4),
-(3,5),
-(4,1),
-(5,2),
-(6,3);
-
-insert into `playlist_tbl` (pid, uid)
-values (1,1),
-(2,1),
-(3,1),
-(4,2),
-(5,3);
-
-insert into `song_in_playlist` (pid, aid)
-values (1,1),
-(1,2),
-(1,3),
-(1,4),
-(1,5),
-(4,1),
-(4,2),
-(5,3),
-(5,4),
-(5,5);

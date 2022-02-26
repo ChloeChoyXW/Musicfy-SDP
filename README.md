@@ -5,7 +5,7 @@ Module used:
     tkinter
     pygame
 
-mySQL database structure
+mySQL database server 
 
     =>Database structure used in _sampleSQL.sql
 

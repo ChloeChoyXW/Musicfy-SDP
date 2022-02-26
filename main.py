@@ -21,7 +21,7 @@ pg.mixer.init()
 # Change Window(Application) Title
 root.title("Musicfy")
 # Change icon
-root.iconbitmap(r"musicfy.ico")
+# root.iconbitmap(r"musicfy.ico")
 # Change Window's size
 root.geometry("500x500")
 # Fix window's size

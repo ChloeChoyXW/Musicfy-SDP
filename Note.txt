@@ -35,9 +35,6 @@ Stuff to be added
 
     Restriction on Search bar input 
 
-    Database audio_tbl + categories
-    Search + Categories
-
 
 
 
@@ -164,3 +161,14 @@ Non functional requirement*
 <Listener>
     Easy to use GUI 
     Quick load time 
+
+
+
+
+Direct user to specific page by user role when login
+-- User Login -> User Page 
+-- Admin Login -> Admin Page
+
+
+Admin 
+-- Search & Ban User
