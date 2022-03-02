@@ -1,0 +1,19 @@
+============================ Modules To Be Tested =============================
+
+[Zhen Yao]
+    loginsignup.py | [Ready]
+    admin_win.py | [Ready]
+
+[Nam Tung]
+    display_songs.py | [Ready]
+    search_audio.py | [Ready]
+
+[Chloe]
+    upload_songs.py | [Ready]
+
+[Clarence]
+    playlist | [Not Ready]
+
+[Andrew]
+    user account | [Not Ready]
+    admin account | [Not Ready]
