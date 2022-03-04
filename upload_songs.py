@@ -156,11 +156,11 @@ def Upload_audio():
     for i in categories:
         category_list.insert(tk.END, i)
         
-    category_list.grid(row=3, column=1)
+    category_list.grid(row=4, column=1)
 
     #Upload button
     Upload_button = tk.Button(root, text='Upload', command=lambda:[get_category(), Audio_upload(), Update_database(), updateAudio_category()]) 
-    Upload_button.grid(sticky='E', row=4,column=1)
+    Upload_button.grid(sticky='W', row=5,column=0)
 
 
 Upload_audio()
