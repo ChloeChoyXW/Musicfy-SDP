@@ -28,6 +28,22 @@ root.resizable(width=False, height=False)
 #Show selected filename
 
 user_id = str(1) #Get user id from database when login with query
+file_path = ''
+
+#Get menu choice
+def get_category():
+    global categoryList
+    global audio_category
+    audio_category = []
+    #Get selected category
+    categoryList = category_list.curselection()
+
+    if len(categoryList) > 0:
+        for c in categoryList:
+            c+=1
+            audio_category.append(c)
+    else:
+        messagebox.showwarning('Error!', 'Please choose a category!')
 
 #Select audio file
 def Select_file():
@@ -47,6 +63,7 @@ def Audio_upload():
     #Audio name
     global audio_name
     global audio_location
+    global file_path
     audio_creator = "_"  + user_id
     audio_name = inputName.get() + audio_creator
 
@@ -68,19 +85,7 @@ def Audio_upload():
 
 
 
-#Get menu choice
-def get_category():
-    global audio_category
-    audio_category = []
-    #Get selected category
-    categoryList = category_list.curselection()
 
-    if len(categoryList) > 0:
-        for c in categoryList:
-            c+=1
-            audio_category.append(c)
-    else:
-        messagebox.showwarning('Error!', 'Please choose a category!')
 
 #Update audio category
 def updateAudio_category():
@@ -89,6 +94,7 @@ def updateAudio_category():
     audio_tuple = (audio_name, user_id)
 
     global audioCategory_list
+    global audio_category
     audioCategory_list = []
     mycursor.execute(audio_id, audio_tuple)
     aid_tuple = mycursor.fetchone()
@@ -159,7 +165,11 @@ def Upload_audio():
     category_list.grid(row=4, column=1)
 
     #Upload button
+<<<<<<< HEAD
+    Upload_button = tk.Button(root, text='Upload', command=lambda:[get_category(), Audio_upload(), Update_database()])
+=======
     Upload_button = tk.Button(root, text='Upload', command=lambda:[get_category(), Audio_upload(), Update_database(), updateAudio_category()]) 
+>>>>>>> parent of 422755f (Update upload_songs.py)
     Upload_button.grid(sticky='W', row=5,column=0)
 
 

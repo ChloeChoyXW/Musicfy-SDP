@@ -6,3 +6,7 @@ musicfy.ico
 mysql note.txt
 /__pycache__
 musicfy-mysql-ERD.mwb
+*.mp3
+try.py
+try2.py
+.vscode/launch.json
