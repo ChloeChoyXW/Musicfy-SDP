@@ -25,7 +25,7 @@ root.resizable(width=False, height=False)
 # ==============================================================================
 
 # ============================ Functions =======================================
-#Show selected filename
+#IMPORTANT: py_SQL.py file make changes for cursor :- mycursor = db.cursor(buffered=True)
 
 user_id = str(1) #Get user id from database when login with query
 file_path=''
