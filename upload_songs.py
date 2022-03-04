@@ -28,16 +28,6 @@ root.resizable(width=False, height=False)
 #Show selected filename
 
 user_id = str(1) #Get user id from database when login with query
-file_path=''
-
-#Get menu choice
-def get_category():
-    global categoryList
-    global audio_category
-    audio_category = []
-    #Get selected category
-    categoryList = category_list.curselection()
-
 
 #Select audio file
 def Select_file():
@@ -50,87 +40,91 @@ def Select_file():
     file_name = Path(file_path).name
     file_selected = tk.Label(root, text = file_name, font=('Italic', 10), fg="black", )
     file_selected.grid(sticky='W',row=2,column=2)
-    
-    
 
 
 #Upload file
 def Audio_upload():
     #Audio name
     global audio_name
-    global file_path
-    global audio_category
-    audio_creator = "_"  + str(user_id)
+    global audio_location
+    audio_creator = "_"  + user_id
     audio_name = inputName.get() + audio_creator
-    filepath = file_path
 
-    # Catch error
-    if audio_name == audio_creator:
-        messagebox.showwarning('Error!', 'Please enter audio name!')
-        
-    elif filepath == '':
+    try:
+        if audio_name == audio_creator:
+            messagebox.showwarning('Error!', 'Please enter audio name!')
+        if file_path == '':
+            messagebox.showwarning('Error!', 'Please upload audio file!')
+    except Exception as e:
         messagebox.showwarning('Error!', 'Please upload audio file!')
-    elif len(categoryList) == 0:        
-        messagebox.showwarning('Error!', 'Please choose a category!')
-    else:
+    finally:
         #Copy audio to the file (If able to host databse, change to upload to database)
         audio_uploaded = shutil.copy(file_path, 'C:/Users/USER/OneDrive/Documents/GitHub/Musicfy-SDP/audio_files folder/') #change to audio file path
         #rename file to match audio name and aid
-        global audio_location
-        audio_location = 'C:/Users/USER/OneDrive/Documents/GitHub/Musicfy-SDP/audio_files folder/' + audio_name  + '_'+user_id+'.mp3'
+        audio_location = 'C:/Users/USER/OneDrive/Documents/GitHub/Musicfy-SDP/audio_files folder/' + audio_name  + '_'+'1'+'.mp3'
         os.rename(audio_uploaded, audio_location) #Rename audio in audio folder as name entered
 
-        # All category selected
+
+
+
+
+#Get menu choice
+def get_category():
+    global audio_category
+    audio_category = []
+    #Get selected category
+    categoryList = category_list.curselection()
+
+    if len(categoryList) > 0:
         for c in categoryList:
             c+=1
             audio_category.append(c)
-
-    #audio uploaded to the file without category
-  
-
+    else:
+        messagebox.showwarning('Error!', 'Please choose a category!')
 
 #Update audio category
 def updateAudio_category():
     #Get aid
-    audio_id = "SELECT aid FROM audio_tbl WHERE audio_name = %s AND uid = %s"
+    audio_id = "SELECT aid FROM audio_tbl WHERE audio_name = %s AND uid = %s "
     audio_tuple = (audio_name, user_id)
 
     global audioCategory_list
-    global audio_category
     audioCategory_list = []
     mycursor.execute(audio_id, audio_tuple)
-    
     aid_tuple = mycursor.fetchone()
 
     #Get a list of cid with aid
-    if aid_tuple != None:
-        if len(aid_tuple) > 0 :
-            for x in audio_category:
-                aid = aid_tuple[0]
-                audioCategory_list.append((x, aid))
+    if len(aid_tuple) > 0:
+        for x in audio_category:
+            aid = aid_tuple[0]
+            audioCategory_list.append((x, aid))
 
-
-    audio_cat = "INSERT INTO song_in_category (cid, aid) VALUES (%s, %s)"
-    mycursor.executemany(audio_cat, audioCategory_list)
-    db.commit()
 
 def Update_database():
+    #Insert list into database
+    global audio_location
+    audio_cat = "INSERT INTO song_in_category (cid, aid) VALUES (%s, %s)"
+    mycursor.executemany(audio_cat, audioCategory_list)
+
+    audio_sql = "INSERT INTO audio_tbl (audio_name, uid, audio_path) VALUES ('{}','{}','{}')".format(audio_name, user_id, audio_location)
+    
     try:
-        #Insert list into database
-        audio_sql = "INSERT INTO audio_tbl (audio_name, uid, audio_path) VALUES ('{}','{}','{}')".format(audio_name, user_id, audio_location)
         mycursor.execute(audio_sql)
+        updateAudio_category()
         db.commit()
         messagebox.showinfo('', 'Audio uploaded successfully!')
 
     except Exception as e:
+        messagebox.showerror("Error",  e)
         db.rollback()
 
-    # finally:
-    #     if (db):
-    #         mycursor.close()
-    #         db.close()
+    finally:
+        if (db):
+            mycursor.close()
+            db.close()
 
 #============================================================================
+# objective: what if no selected
 def Upload_audio():
     #Create and display upload audio label
     uploadAudio = tk.Label(root, text = "Upload Audio", font=('Italic', 14), fg="dark blue")
